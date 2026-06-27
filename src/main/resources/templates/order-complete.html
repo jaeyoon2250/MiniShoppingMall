@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>주문 완료 - MINIMALL</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container">
+    <div class="auth-wrap" style="text-align:center; padding:60px 0;">
+        <h1>주문이 완료되었습니다</h1>
+        <p style="margin:16px 0 28px; color:#555;">
+            주문번호 <b th:text="${orderId}">0</b>번으로 주문이 정상적으로 접수되었습니다.
+        </p>
+        <a th:href="@{/}" class="btn btn-primary">쇼핑 계속하기</a>
+    </div>
+</main>
+
+<div th:replace="~{fragments/common :: footer}"></div>
+
+</body>
+</html>

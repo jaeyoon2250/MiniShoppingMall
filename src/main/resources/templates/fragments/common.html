@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <!-- 공통 헤더/푸터 fragment 모음 -->
+</head>
+<body>
+
+<header th:fragment="header" class="site-header">
+    <div class="container site-header__top">
+        <a th:href="@{/}" class="logo">MINI<span>MALL</span></a>
+
+        <div class="search-bar">
+            <input type="text" placeholder="상품, 브랜드를 검색해보세요" />
+        </div>
+
+        <div class="header-actions">
+            <th:block th:if="${currentMember == null}">
+                <a th:href="@{/login}">로그인</a>
+                <a th:href="@{/signup}">회원가입</a>
+            </th:block>
+            <th:block th:if="${currentMember != null}">
+                <span th:text="${currentMember.name} + '님'">회원님</span>
+                <form th:action="@{/logout}" method="post" style="display:inline;">
+                    <button type="submit" class="link-btn">로그아웃</button>
+                </form>
+            </th:block>
+            <a th:href="@{/cart}" class="cart-badge">장바구니
+                <span class="count" th:text="${cartCount}">0</span>
+            </a>
+        </div>
+    </div>
+    <nav class="container site-nav">
+        <a th:href="@{/}" class="active">전체</a>
+        <a href="#">의류</a>
+        <a href="#">신발</a>
+        <a href="#">가방</a>
+        <a href="#">액세서리</a>
+        <a href="#">뷰티</a>
+        <a href="#">라이프</a>
+    </nav>
+</header>
+
+<footer th:fragment="footer" class="site-footer">
+    <div class="container">
+        <div class="site-footer__cols">
+            <div>
+                <b>고객센터</b>
+                <ul>
+                    <li>1588-0000</li>
+                    <li>평일 09:00 - 18:00</li>
+                    <li>공지사항</li>
+                    <li>1:1 문의</li>
+                </ul>
+            </div>
+            <div>
+                <b>쇼핑정보</b>
+                <ul>
+                    <li>배송 안내</li>
+                    <li>교환/반품 안내</li>
+                    <li>자주 묻는 질문</li>
+                </ul>
+            </div>
+            <div>
+                <b>회사정보</b>
+                <ul>
+                    <li>회사소개</li>
+                    <li>이용약관</li>
+                    <li>개인정보처리방침</li>
+                </ul>
+            </div>
+        </div>
+        <div class="site-footer__bottom">
+            MINIMALL Co., Ltd. &middot; 대표 김재윤 &middot; 사업자등록번호 000-00-00000<br />
+            본 사이트는 학습용 미니 프로젝트 화면입니다.
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

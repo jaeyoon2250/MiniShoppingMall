@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>회원가입 - MINIMALL</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container">
+    <div class="auth-wrap">
+        <h1>회원가입</h1>
+
+        <p th:if="${errorMessage}" th:text="${errorMessage}" style="color:#e34343; margin-bottom:12px;"></p>
+
+        <form th:action="@{/signup}" th:object="${signupRequestDto}" method="post">
+            <div class="field">
+                <label>이름</label>
+                <input type="text" th:field="*{name}" placeholder="이름을 입력해주세요" />
+                <p th:if="${#fields.hasErrors('name')}" th:errors="*{name}" style="color:#e34343; font-size:13px;"></p>
+            </div>
+            <div class="field">
+                <label>이메일</label>
+                <input type="email" th:field="*{email}" placeholder="example@minimall.com" />
+                <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" style="color:#e34343; font-size:13px;"></p>
+            </div>
+            <div class="field">
+                <label>비밀번호</label>
+                <input type="password" th:field="*{password}" placeholder="4자 이상 입력해주세요" />
+                <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}" style="color:#e34343; font-size:13px;"></p>
+            </div>
+            <div class="field">
+                <label>비밀번호 확인</label>
+                <input type="password" th:field="*{passwordConfirm}" placeholder="비밀번호를 다시 입력해주세요" />
+                <p th:if="${#fields.hasErrors('passwordConfirm')}" th:errors="*{passwordConfirm}" style="color:#e34343; font-size:13px;"></p>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block">가입하기</button>
+        </form>
+
+        <p class="auth-foot">
+            이미 계정이 있으신가요? <a th:href="@{/login}">로그인</a>
+        </p>
+    </div>
+</main>
+
+<div th:replace="~{fragments/common :: footer}"></div>
+
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title th:text="${product != null ? product.name + ' - MINIMALL' : '상품 상세 - MINIMALL'}">상품 상세 - MINIMALL</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container">
+
+    <p class="breadcrumb">
+        <a th:href="@{/}">홈</a><span>/</span>
+        <a th:href="@{/}">의류</a><span>/</span>
+        <span th:text="${product != null ? product.name : '오버사이즈 코튼 셔츠'}">오버사이즈 코튼 셔츠</span>
+    </p>
+
+    <div class="detail-layout">
+        <div class="detail-gallery">
+            <div class="main-image">상품 이미지</div>
+            <div class="thumb-row">
+                <div class="thumb active"></div>
+                <div class="thumb"></div>
+                <div class="thumb"></div>
+                <div class="thumb"></div>
+            </div>
+        </div>
+
+        <div class="detail-info">
+            <p class="category" th:text="${product.tag}">MINIMALL BASIC</p>
+            <h1 th:text="${product.name}">오버사이즈 코튼 셔츠</h1>
+            <p class="rating-row"><span class="star">&#9733;&#9733;&#9733;&#9733;&#9733;</span> 4.8 (128개 리뷰)</p>
+
+            <div class="price-row">
+                <th:block th:if="${product.discountRate != null and product.discountRate > 0}">
+                    <span class="discount" th:text="${product.discountRate} + '%'">20%</span><th:block th:text="${#numbers.formatInteger(product.discountedPrice, 3, 'COMMA')} + '원'">39,800원</th:block>
+                    <span class="original" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')} + '원'">49,800원</span>
+                </th:block>
+                <th:block th:unless="${product.discountRate != null and product.discountRate > 0}" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')} + '원'">39,800원</th:block>
+            </div>
+
+            <form th:action="@{/cart/add}" method="post">
+                <input type="hidden" name="productId" th:value="${product.id}" />
+
+                <div class="option-block">
+                    <label>사이즈</label>
+                    <select>
+                        <option>사이즈를 선택해주세요</option>
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                    </select>
+                </div>
+
+                <div class="option-block">
+                    <label>컬러</label>
+                    <select>
+                        <option>컬러를 선택해주세요</option>
+                        <option>화이트</option>
+                        <option>블랙</option>
+                        <option>베이지</option>
+                    </select>
+                </div>
+
+                <div class="option-block">
+                    <label>수량</label>
+                    <div class="qty-stepper">
+                        <input type="number" name="quantity" value="1" min="1" th:max="${product.stock}" />
+                    </div>
+                </div>
+
+                <div class="detail-cta">
+                    <button type="submit" class="btn btn-block">장바구니 담기</button>
+                    <button type="submit" th:formaction="@{/orders/buy-now}" class="btn btn-primary btn-block">바로 구매하기</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="tab-row">
+        <span class="tab active">상세정보</span>
+        <span class="tab">리뷰 (128)</span>
+        <span class="tab">배송/교환/반품</span>
+    </div>
+
+    <div class="detail-content-placeholder">
+        상품 상세 설명 영역입니다.<br />
+        실제 상품 상세 이미지/설명은 추후 기능 구현 단계에서 연동됩니다.
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/common :: footer}"></div>
+
+</body>
+</html>

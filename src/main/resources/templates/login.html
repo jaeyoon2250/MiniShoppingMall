@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>로그인 - MINIMALL</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container">
+    <div class="auth-wrap">
+        <h1>로그인</h1>
+
+        <p th:if="${param.error}" style="color:#e34343; margin-bottom:12px;">이메일 또는 비밀번호가 올바르지 않습니다.</p>
+        <p th:if="${signupSuccess}" style="color:#2f9e44; margin-bottom:12px;">회원가입이 완료되었습니다. 로그인해주세요.</p>
+
+        <form th:action="@{/login}" method="post">
+            <div class="field">
+                <label>이메일</label>
+                <input type="email" name="email" placeholder="example@minimall.com" />
+            </div>
+            <div class="field">
+                <label>비밀번호</label>
+                <input type="password" name="password" placeholder="비밀번호를 입력해주세요" />
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block" style="margin-top:8px;">로그인</button>
+        </form>
+
+        <p class="auth-foot">
+            아직 회원이 아니신가요? <a th:href="@{/signup}">회원가입</a>
+        </p>
+    </div>
+</main>
+
+<div th:replace="~{fragments/common :: footer}"></div>
+
+</body>
+</html>

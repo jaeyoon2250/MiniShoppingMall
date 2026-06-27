@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>MINIMALL - 미니 쇼핑몰</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container">
+
+    <section class="hero">
+        <small>NEW SEASON</small>
+        <h1>오늘 가장 핫한 아이템,<br />지금 가장 합리적인 가격으로</h1>
+        <p>* 화면 구성을 먼저 확인하기 위한 더미(예시) 데이터입니다.</p>
+        <div>
+            <a href="#product-list" class="btn btn-primary">지금 쇼핑하기</a>
+        </div>
+    </section>
+
+    <div class="chip-row">
+        <a th:href="@{/}" class="chip" th:classappend="${selectedCategory == '전체'} ? ' active' : ''">전체</a>
+        <a th:each="cat : ${categories}" th:href="@{/(category=${cat})}" class="chip"
+           th:classappend="${selectedCategory == cat} ? ' active' : ''" th:text="${cat}">의류</a>
+    </div>
+
+    <section id="product-list">
+        <div class="section-title">
+            <h2 th:text="${selectedCategory == '전체'} ? '지금 인기있는 상품' : ${selectedCategory} + ' 상품'">지금 인기있는 상품</h2>
+            <span th:text="${#lists.size(products)} + '개'" style="color:#828282; font-size:13px;">0개</span>
+        </div>
+
+        <div class="product-grid" th:if="${not #lists.isEmpty(products)}">
+
+            <a th:each="product : ${products}" th:href="@{/products/{id}(id=${product.id})}" class="product-card">
+                <div class="product-thumb">상품 이미지<span class="like">&#9825;</span></div>
+                <p class="product-tag" th:text="${product.tag}">MINIMALL BASIC</p>
+                <p class="product-name" th:text="${product.name}">상품명</p>
+                <p class="product-price">
+                    <th:block th:if="${product.discountRate != null and product.discountRate > 0}">
+                        <span class="discount" th:text="${product.discountRate} + '%'">20%</span><th:block th:text="${#numbers.formatInteger(product.discountedPrice, 3, 'COMMA')} + '원'">39,800원</th:block>
+                        <span class="original" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')} + '원'">49,800원</span>
+                    </th:block>
+                    <th:block th:unless="${product.discountRate != null and product.discountRate > 0}" th:text="${#numbers.formatInteger(product.price, 3, 'COMMA')} + '원'">59,000원</th:block>
+                </p>
+            </a>
+
+        </div>
+        <p th:if="${#lists.isEmpty(products)}" style="color:#828282; padding:60px 0; text-align:center;">해당 카테고리에 상품이 없습니다.</p>
+    </section>
+
+</main>
+
+<div th:replace="~{fragments/common :: footer}"></div>
+
+</body>
+</html>

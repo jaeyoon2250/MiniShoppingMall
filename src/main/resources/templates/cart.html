@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>장바구니 - MINIMALL</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}" />
+</head>
+<body>
+
+<div th:replace="~{fragments/common :: header}"></div>
+
+<main class="container">
+
+    <div class="section-title">
+        <h2>장바구니 (<span th:text="${cartItems.size()}">0</span>)</h2>
+    </div>
+
+    <div class="cart-layout">
+
+        <div class="cart-items" th:if="${!cartItems.isEmpty()}">
+
+            <div class="cart-item" th:each="item : ${cartItems}">
+                <input type="checkbox" checked />
+                <div class="thumb">이미지</div>
+                <div class="info">
+                    <p class="name" th:text="${item.product.name}">상품명</p>
+                    <p class="option" th:text="${item.quantity} + '개'">1개</p>
+                </div>
+                <form th:action="@{/cart/items/{id}(id=${item.id})}" method="post" class="qty-stepper">
+                    <button type="submit" name="quantity" th:value="${item.quantity - 1}">-</button>
+                    <input type="text" th:value="${item.quantity}" readonly />
+                    <button type="submit" name="quantity" th:value="${item.quantity + 1}">+</button>
+                </form>
+                <div class="price" th:text="${#numbers.formatInteger(item.totalPrice, 3, 'COMMA')} + '원'">39,800원</div>
+                <form th:action="@{/cart/items/{id}/delete(id=${item.id})}" method="post">
+                    <button type="submit" class="remove">&times;</button>
+                </form>
+            </div>
+
+        </div>
+
+        <p th:if="${cartItems.isEmpty()}" style="padding:40px 0; color:#777;">장바구니가 비어 있습니다.</p>
+
+        <aside class="order-summary" th:if="${!cartItems.isEmpty()}">
+            <h3>결제 예상금액</h3>
+            <div class="summary-row">
+                <span>상품금액</span>
+                <span th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + '원'">0원</span>
+            </div>
+            <div class="summary-row">
+                <span>배송비</span>
+                <span>0원</span>
+            </div>
+            <div class="summary-row total">
+                <span>총 결제금액</span>
+                <span th:text="${#numbers.formatInteger(totalPrice, 3, 'COMMA')} + '원'">0원</span>
+            </div>
+            <form th:action="@{/orders}" method="post">
+                <button type="submit" class="btn btn-primary btn-block" style="margin-top:20px;">주문하기</button>
+            </form>
+        </aside>
+
+    </div>
+
+</main>
+
+<div th:replace="~{fragments/common :: footer}"></div>
+
+</body>
+</html>
